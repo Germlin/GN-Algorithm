@@ -1,7 +1,7 @@
 # 定义GN算法用到的数据结构，以及介数的计算
 
 from src.UniqueQueue import UniqueQueue
-
+import copy
 
 class Node:
     def __init__(self, id, distance=-1, weight=0, in_degree=0, out_degree=0, connected = False, betweenness=0):
@@ -31,66 +31,13 @@ class Node:
 
 
 class Graph:
-    def __init__(self, mat):
+    def __init__(self, mat, nodes_list):
         self.connection_mat = mat
         self.num_node = len(mat)
+        self.nodes = nodes_list
 
     def remove_edge(self, src, dst):
         self.connection_mat[src][dst] = 0
-
-    def shortest_path(self, src):
-        visited = []
-        distance = []
-        parent = []
-        num = self.num_node
-
-        # initial
-        for i in range(num):
-            visited.append(False)
-            distance.append(-1)
-            parent.append(-1)
-
-        # insert the source node
-        visited[src] = True
-        distance[src] = 0
-        parent[src] = src
-        for i in range(num):
-            if i != src:
-                if self.connection_mat[src][i] != 0:
-                    distance[i] = self.connection_mat[src][i]
-                    parent[i] = src
-
-        while True:
-            index = 0
-            while index < num:
-                if visited[index] is False and distance[index] != -1:
-                    min_index = index
-                    min_distance = distance[index]
-                    break
-                index += 1
-
-            if index == num:
-                break
-
-            while index < num:
-                if visited[index] is False and distance[index] != -1:
-                    if distance[index] < min_distance:
-                        min_index = index
-                        min_distance = distance[index]
-                index += 1
-
-            visited[min_index] = True
-
-            for i in range(num):
-                if self.connection_mat[min_index][i] != 0:
-                    if distance[i] == -1:
-                        distance[i] = self.connection_mat[min_index][i] + distance[min_index]
-                        parent[i] = min_index
-                    elif distance[i] > self.connection_mat[min_index][i] + distance[min_index]:
-                        distance[i] = self.connection_mat[min_index][i] + distance[min_index]
-                        parent[i] = min_index
-
-        return [visited, distance, parent]
 
     def isolated(self):
         for i in range(self.num_node):
@@ -113,9 +60,7 @@ class DirectedGraph:
             for j in range(graph.num_node):
                 self.connection_mat[i].append(0)
 
-        self.nodes = []
-        for i in range(graph.num_node):
-            self.nodes.append(Node(i))
+        self.nodes = copy.deepcopy(graph.nodes)
 
         self.num_node = graph.num_node
 

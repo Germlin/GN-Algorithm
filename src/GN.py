@@ -1,5 +1,5 @@
 from .Graph import *
-from .betweeeness import *
+from .Betweeeness import *
 import copy
 
 

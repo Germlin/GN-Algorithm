@@ -39,32 +39,3 @@ class UniqueQueue:
         if isinstance(other, UniqueQueue):
             return self.list == other.list
         return False
-
-
-if __name__ == '__main__':
-    class Foo:
-        def __init__(self, index, data):
-            self.index = index
-            self.data = data
-
-        def same_element(self, other):
-            if self.index == other.index:
-                return True
-            else:
-                return False
-
-
-    q = UniqueQueue()
-
-    q.append(Foo(1, 10))
-    q.append(Foo(2, 20))
-    q.append(Foo(1, 30))
-    q.append(Foo(3, 40))
-    print(q)
-
-    q.pop()
-    print(q)
-
-    q.append(Foo(1, 30))
-    for v in q:
-        print(v.data)

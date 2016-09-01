@@ -32,6 +32,7 @@ class BetweennessOneNode:
                         self.betweenness_mat[index][i] = self.betweenness_mat[i][index] = w
                         directed_graph.nodes[i].betweenness += w
                 index = 0
+                continue
             index += 1
 
 
